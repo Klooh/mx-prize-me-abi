@@ -1,0 +1,822 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.61.0-nightly",
+            "commitHash": "10913c00018c76103b2fd4260d8c02ec728fd244",
+            "commitDate": "2022-03-03",
+            "channel": "Nightly",
+            "short": "rustc 1.61.0-nightly (10913c000 2022-03-03)"
+        },
+        "contractCrate": {
+            "name": "prize",
+            "version": "0.0.1"
+        },
+        "framework": {
+            "name": "elrond-wasm",
+            "version": "0.29.3"
+        }
+    },
+    "name": "Prize",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "cleanClaimed",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "iids",
+                    "type": "variadic<u32>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "create",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "*"
+            ],
+            "inputs": [
+                {
+                    "name": "duration_in_s",
+                    "type": "u64"
+                },
+                {
+                    "name": "pseudo",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url1",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url2",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url3",
+                    "type": "bytes"
+                },
+                {
+                    "name": "reserved",
+                    "type": "bytes"
+                },
+                {
+                    "name": "graphic",
+                    "type": "bytes"
+                },
+                {
+                    "name": "logo_link",
+                    "type": "bytes"
+                },
+                {
+                    "name": "free_text",
+                    "type": "bytes"
+                },
+                {
+                    "name": "premium",
+                    "type": "bool"
+                },
+                {
+                    "name": "charity",
+                    "type": "bool"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<u32>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "prize",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "play",
+            "mutability": "mutable",
+            "payableInTokens": [
+                "EGLD"
+            ],
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "link_address",
+                    "type": "optional<Address>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<u32>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "claimPrize",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<GetInfoStruct>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getAllInfo",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "status_filter",
+                    "type": "variadic<InstanceStatus>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u32"
+                },
+                {
+                    "type": "variadic<GetInfoStruct>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getAllInfoFrag",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                },
+                {
+                    "name": "iid_start",
+                    "type": "u32"
+                },
+                {
+                    "name": "max_nb_instances_returned",
+                    "type": "u32"
+                },
+                {
+                    "name": "status_filter",
+                    "type": "variadic<InstanceStatus>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                },
+                {
+                    "type": "variadic<GetInfoStruct>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "setPremium",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "premium_status",
+                    "type": "bool"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getStatus",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "InstanceStatus"
+                }
+            ]
+        },
+        {
+            "name": "hasStatus",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "instance_status",
+                    "type": "InstanceStatus"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "getNb",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "status_filter",
+                    "type": "variadic<InstanceStatus>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getRemainingTime",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<u64>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getIDs",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "status_filter",
+                    "type": "variadic<InstanceStatus>",
+                    "multi_arg": true
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u32>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "hasWon",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "optional<bool>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getSponsorIDs",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "sponsor_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u32>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "getNbSponsorRunning",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "sponsor_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getTotalPlayers",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getPlayerIDs",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "variadic<u32>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "hasPlayed",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "player_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "disable",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "disable_status",
+                    "type": "bool"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "addAddrBlacklist",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "rmAddrBlacklist",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getAddrBlacklist",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "setParamManClaim",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "manual_claim",
+                    "type": "bool"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setParamNbMaxInstancesPerSponsor",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "nb_instances_max",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setParamDuration",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "duration_min",
+                    "type": "u64"
+                },
+                {
+                    "name": "duration_max",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "setParamSponsorInfoMaxLength",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "length_max",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getParamManClaim",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        },
+        {
+            "name": "getParamNbMaxInstancesPerSponsor",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "getParamDuration",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                },
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "getParamSponsorInfoMaxLength",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "setFeePol",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "fee_amount_egld",
+                    "type": "BigUint"
+                },
+                {
+                    "name": "sponsor_reward_percent",
+                    "type": "u8"
+                },
+                {
+                    "name": "link_reward_percent",
+                    "type": "u8"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "claimFees",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "claimLinkRewards",
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getFeePol",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                },
+                {
+                    "type": "u8"
+                },
+                {
+                    "type": "u8"
+                }
+            ]
+        },
+        {
+            "name": "getFeePool",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "getLinkRewardPool",
+            "mutability": "readonly",
+            "inputs": [
+                {
+                    "name": "link_address",
+                    "type": "Address"
+                }
+            ],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "claimDonations",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [],
+            "outputs": []
+        },
+        {
+            "name": "getCharityPool",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "setLogEnableStatus",
+            "onlyOwner": true,
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "enable",
+                    "type": "bool"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "getLogEnableStatus",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "bool"
+                }
+            ]
+        }
+    ],
+    "hasCallback": false,
+    "types": {
+        "GetInfoStruct": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "iid",
+                    "type": "u32"
+                },
+                {
+                    "name": "instance_status",
+                    "type": "InstanceStatus"
+                },
+                {
+                    "name": "number_of_players",
+                    "type": "u32"
+                },
+                {
+                    "name": "has_played",
+                    "type": "bool"
+                },
+                {
+                    "name": "has_won",
+                    "type": "bool"
+                },
+                {
+                    "name": "winner_info",
+                    "type": "WinnerInfo"
+                },
+                {
+                    "name": "sponsor_info",
+                    "type": "SponsorInfo"
+                },
+                {
+                    "name": "prize_info",
+                    "type": "PrizeInfo"
+                },
+                {
+                    "name": "premium",
+                    "type": "bool"
+                },
+                {
+                    "name": "charity",
+                    "type": "bool"
+                },
+                {
+                    "name": "deadline",
+                    "type": "u64"
+                }
+            ]
+        },
+        "InstanceStatus": {
+            "type": "enum",
+            "variants": [
+                {
+                    "name": "NotExisting",
+                    "discriminant": 0
+                },
+                {
+                    "name": "Running",
+                    "discriminant": 1
+                },
+                {
+                    "name": "Ended",
+                    "discriminant": 2
+                },
+                {
+                    "name": "Triggered",
+                    "discriminant": 3
+                },
+                {
+                    "name": "Claimed",
+                    "discriminant": 4
+                },
+                {
+                    "name": "Disabled",
+                    "discriminant": 5
+                }
+            ]
+        },
+        "PrizeInfo": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "token_identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "token_nonce",
+                    "type": "u64"
+                },
+                {
+                    "name": "token_amount",
+                    "type": "BigUint"
+                }
+            ]
+        },
+        "SponsorInfo": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "address",
+                    "type": "Address"
+                },
+                {
+                    "name": "pseudo",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url1",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url2",
+                    "type": "bytes"
+                },
+                {
+                    "name": "url3",
+                    "type": "bytes"
+                },
+                {
+                    "name": "reserved",
+                    "type": "bytes"
+                },
+                {
+                    "name": "graphic",
+                    "type": "bytes"
+                },
+                {
+                    "name": "logo_link",
+                    "type": "bytes"
+                },
+                {
+                    "name": "free_text",
+                    "type": "bytes"
+                }
+            ]
+        },
+        "WinnerInfo": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "ticket_number",
+                    "type": "u32"
+                },
+                {
+                    "name": "address",
+                    "type": "Address"
+                }
+            ]
+        }
+    }
+}
